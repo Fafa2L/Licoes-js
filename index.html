@@ -1,0 +1,96 @@
+<!--
+Programa: Circulos cruzando
+Turma: 2ºL
+Nome: Allex Silva Santana - Nº: 1  
+Nome: Breno Pivanti - Nº: 2
+Nome: Fabrício da Silva Rojas - Nº: 9
+Nome: Vinicius Pompeu - Nº: 28
+DESCRIÇÃO: Os círculos se movimentem em direção um ao outro, eles se cruzar no centro do canvas.
+-->
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <title>introducao de textos</title>
+    <meta charset="UTF-8">
+    <style>
+        canvas {
+            background-color: #000000;
+            border: 1px solid #cccccc;
+        }
+    </style>
+    <script>
+        var bolaAzul;
+        var bolaAmarela;
+        function startGame() {
+            bolaAmarela = new componentCima(75, 75, "yellow", 150, 150);
+            bolaAzul = new componentBaixo(425, 425, "blue", 150, 150);
+            myGameArea.start();
+        }
+
+        var myGameArea = {
+            canvas: document.createElement("canvas"),
+            start: function () {
+                this.canvas.width = 500;
+                this.canvas.height = 500;
+                this.context = this.canvas.getContext('2d');
+                document.body.insertBefore(this.canvas, document.body.childNodes[0]);
+                this.interval = setInterval(updateGameArea, 10);
+            },
+
+            clear: function () {
+                this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+                this.context.clearRect(500, 500, 0, 0);
+            }
+        }
+
+        function componentCima(width, height, color, x, y) {
+            this.width = width;
+            this.height = height;
+            this.x = x;
+            this.y = y;
+            this.color = color;
+            this.tamanho = x / 2;
+            this.update = function () {
+                ctx = myGameArea.context;
+                ctx.fillStyle = this.color;
+                this.width++
+                this.height++
+                ctx.beginPath();
+                ctx.arc(this.width, this.height, this.tamanho, 0, 2 * Math.PI);
+                ctx.fill();
+            }
+        }
+
+        function componentBaixo(width, height, color, x, y) {
+            this.width = width;
+            this.height = height;
+            this.x = x;
+            this.y = y;
+            this.color = color;
+            this.tamanho = x / 2;
+            this.update = function () {
+                ctx = myGameArea.context;
+                ctx.fillStyle = this.color;
+                this.width--
+                this.height--
+                ctx.beginPath();
+                ctx.arc(this.width, this.height, this.tamanho, 0, 2 * Math.PI);
+                ctx.fill();
+            }
+        }
+
+        function updateGameArea() {
+            myGameArea.clear();
+            bolaAmarela.update();
+            bolaAzul.update();
+        }
+    </script>
+
+</head>
+
+<body onload="startGame();">
+
+</body>
+
+</html>
